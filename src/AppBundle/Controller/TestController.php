@@ -10,20 +10,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class TestController extends Controller
 {
     /**
-     * @Route("/next", name="homepage")
+     * @Route("/pregunta/{id}", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $id)
     {
         $response = new JsonResponse();
         
         $em = $this->getDoctrine()->getManager();
         
         $data = array();
-        
-        $id = 1;
+
         $pregunta = $this->getDoctrine()
             ->getRepository('AppBundle:Pregunta')
-            ->find(1);
+            ->find($id);
 
         if (!$pregunta) {
             throw $this->createNotFoundException(
