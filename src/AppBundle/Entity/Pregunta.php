@@ -31,6 +31,15 @@ class Pregunta
     private $opciones;
     
     /**
+     *
+     * @var type \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\ManyToMany(targetEntity="Etiqueta", mappedBy="preguntas")
+     * @ORM\JoinTable(name="pregunta_etiqueta")
+     */
+    private $etiquetas;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -62,6 +71,14 @@ class Pregunta
 
     function setOpciones($opciones) {
         $this->opciones = $opciones;
+    }
+    
+    function getEtiquetas() {
+        return $this->etiquetas;
+    }
+
+    function setEtiquetas(type $etiquetas) {
+        $this->etiquetas = $etiquetas;
     }
     
 }

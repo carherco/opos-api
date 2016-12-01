@@ -33,12 +33,20 @@ class TestController extends Controller
         $data['id'] = $pregunta->getId();
         $data['texto'] = $pregunta->getTexto();
         $data['opciones'] = array();
+        $data['etiquetas'] = array();
+        
         foreach($pregunta->getOpciones() as $opcion) {
             $item = array();
             $item['id'] = $opcion->getId();
             $item['texto'] = $opcion->getTexto();
             $item['correcta'] = $opcion->getCorrecta();
             $data['opciones'][] = $item;
+        }
+        
+        foreach($pregunta->getEtiquetas() as $etiqueta) {
+            $item = array();
+            $item['nombre'] = $etiqueta->getNombre();
+            $data['etiquetas'][] = $item;
         }
         
         $response->setData($data);
