@@ -34,6 +34,7 @@ class TestController extends Controller
         $data['texto'] = $pregunta->getTexto();
         $data['opciones'] = array();
         $data['etiquetas'] = array();
+        $data['explicacion'] = $pregunta->getExplicacion();
         
         foreach($pregunta->getOpciones() as $opcion) {
             $item = array();

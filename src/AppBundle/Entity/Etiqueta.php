@@ -21,7 +21,7 @@ class Etiqueta
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, nullable=false)
+     * @ORM\Column(type="string", length=40, nullable=false)
      */
     private $nombre;
     

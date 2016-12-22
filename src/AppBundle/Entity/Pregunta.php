@@ -26,6 +26,11 @@ class Pregunta
     private $texto;
     
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $explicacion;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Opcion", mappedBy="pregunta", cascade={"remove"})
      */
     private $opciones;
@@ -71,6 +76,14 @@ class Pregunta
 
     function setOpciones($opciones) {
         $this->opciones = $opciones;
+    }
+    
+    function getExplicacion() {
+        return $this->explicacion;
+    }
+
+    function setExplicacion($explicacion) {
+        $this->explicacion = $explicacion;
     }
     
     function getEtiquetas() {
