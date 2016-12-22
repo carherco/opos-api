@@ -28,6 +28,7 @@ class EtiquetasController extends Controller
             $item = array();
             $item['id'] = $etiqueta->getId();
             $item['nombre'] = $etiqueta->getNombre();
+            $item['numpreguntas'] = count($etiqueta->getPreguntas());
             $data[] = $item;
         }
       
