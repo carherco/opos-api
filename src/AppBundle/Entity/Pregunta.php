@@ -90,7 +90,7 @@ class Pregunta
         return $this->etiquetas;
     }
 
-    function setEtiquetas(type $etiquetas) {
+    function setEtiquetas($etiquetas) {
         $this->etiquetas = $etiquetas;
     }
     
