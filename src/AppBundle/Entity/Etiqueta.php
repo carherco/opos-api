@@ -64,7 +64,7 @@ class Etiqueta
         $this->nombre = $nombre;
     }
 
-    function setPreguntas(type $preguntas) {
+    function setPreguntas($preguntas) {
         $this->preguntas = $preguntas;
     }
 
