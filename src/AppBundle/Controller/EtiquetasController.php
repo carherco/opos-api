@@ -27,8 +27,8 @@ class EtiquetasController extends Controller
         foreach($etiquetas as $etiqueta) {
             $item = array();
             $item['id'] = $etiqueta->getId();
-            $item['nombre'] = $etiqueta->getNombre();
-            $item['numpreguntas'] = count($etiqueta->getPreguntas());
+            $item['name'] = $etiqueta->getNombre();
+            $item['numQuestions'] = count($etiqueta->getPreguntas());
             $data[] = $item;
         }
       

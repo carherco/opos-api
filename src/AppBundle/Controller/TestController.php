@@ -32,32 +32,32 @@ class TestController extends Controller
         
         $preguntas = $etiqueta->getPreguntas();
         
-        $output['etiqueta_id'] = $etiqueta->getId();
-        $output['etiqueta_nombre'] = $etiqueta->getNombre();
-        $output['preguntas'] = array();
+        $output['id'] = $etiqueta->getId();
+        $output['name'] = $etiqueta->getNombre();
+        $output['questions'] = array();
         
         foreach($preguntas as $pregunta) {
             $data = array();
             $data['id'] = $pregunta->getId();
-            $data['texto'] = $pregunta->getTexto();
-            $data['opciones'] = array();
-            $data['etiquetas'] = array();
-            $data['explicacion'] = $pregunta->getExplicacion();
+            $data['text'] = $pregunta->getTexto();
+            $data['answers'] = array();
+            $data['labels'] = array();
+            $data['explanation'] = $pregunta->getExplicacion();
 
             foreach($pregunta->getOpciones() as $opcion) {
                 $item = array();
                 $item['id'] = $opcion->getId();
-                $item['texto'] = $opcion->getTexto();
-                $item['correcta'] = $opcion->getCorrecta();
-                $data['opciones'][] = $item;
+                $item['text'] = $opcion->getTexto();
+                $item['correct'] = $opcion->getCorrecta();
+                $data['answers'][] = $item;
             }
 
             foreach($pregunta->getEtiquetas() as $etiqueta) {
                 $item = array();
                 $item['nombre'] = $etiqueta->getNombre();
-                $data['etiquetas'][] = $item;
+                $data['labels'][] = $item;
             }
-            $output['preguntas'][] = $data;
+            $output['questions'][] = $data;
         }  
         
         $response->setData($output);
