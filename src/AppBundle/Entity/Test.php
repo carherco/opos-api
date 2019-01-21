@@ -7,10 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
- * @ORM\Table(name="etiquetas")
+ * @ORM\Table(name="tests")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\EtiquetaRepository")
  */
-class Etiqueta
+class Test
 {
     /**
      * @ORM\Column(type="integer")
@@ -20,15 +20,14 @@ class Etiqueta
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=40, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $nombre;
     
     /**
      * @var type \Doctrine\Common\Collections\Collection
      * 
-     * @ORM\ManyToMany(targetEntity="Pregunta", inversedBy="etiquetas")
-     * @ORM\JoinTable(name="pregunta_etiqueta")
+     * @ORM\OneToMany(targetEntity="Pregunta", mappedBy="test",  cascade={"remove"})
      * 
      */
     private $preguntas;

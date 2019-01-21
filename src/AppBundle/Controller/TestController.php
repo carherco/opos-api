@@ -20,20 +20,20 @@ class TestController extends Controller
         
         $output = array();
 
-        $etiqueta = $this->getDoctrine()
-            ->getRepository('AppBundle:Etiqueta')
+        $test = $this->getDoctrine()
+            ->getRepository('AppBundle:Test')
             ->find($id);
 
-        if (!$etiqueta) {
+        if (!$test) {
             throw $this->createNotFoundException(
                 'No existe el test solicitado: '.$id
             );
         }
         
-        $preguntas = $etiqueta->getPreguntas();
+        $preguntas = $test->getPreguntas();
         
-        $output['id'] = $etiqueta->getId();
-        $output['name'] = $etiqueta->getNombre();
+        $output['id'] = $test->getId();
+        $output['name'] = $test->getNombre();
         $output['questions'] = array();
         
         foreach($preguntas as $pregunta) {
@@ -87,9 +87,12 @@ class TestController extends Controller
         
         $data['id'] = $pregunta->getId();
         $data['texto'] = $pregunta->getTexto();
+        $data['test'] = array();
         $data['opciones'] = array();
         $data['etiquetas'] = array();
         $data['explicacion'] = $pregunta->getExplicacion();
+        
+        $data['test']['nombre'] = $pregunta->getTest()->getNombre();
         
         foreach($pregunta->getOpciones() as $opcion) {
             $item = array();

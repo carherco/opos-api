@@ -5,7 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
-use AppBundle\Validator\Constraints\Zabbix as ZabbixAssert;
+use AppBundle\Entity\Opcion;
+use AppBundle\Entity\Etiqueta;
 
 /**
  * @ORM\Table(name="preguntas")
@@ -19,6 +20,12 @@ class Pregunta
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Test", inversedBy="preguntas", cascade={"persist"})
+     * @ORM\JoinColumn(name="test_id", referencedColumnName="id", nullable=false)
+     */
+    private $test;
 
     /**
      * @ORM\Column(type="text", nullable=false)
@@ -39,7 +46,7 @@ class Pregunta
      *
      * @var type \Doctrine\Common\Collections\Collection
      * 
-     * @ORM\ManyToMany(targetEntity="Etiqueta", mappedBy="preguntas")
+     * @ORM\ManyToMany(targetEntity="Etiqueta", mappedBy="preguntas", cascade={"persist"})
      * @ORM\JoinTable(name="pregunta_etiqueta")
      */
     private $etiquetas;
@@ -62,20 +69,50 @@ class Pregunta
         return $this->id;
     }
 
+    function getTest() {
+        return $this->test;
+    }
+
+    function setTest($test) {
+        $this->test = $test;
+        return $this;
+    }
+
     function getTexto() {
         return $this->texto;
+    }
+
+    function setTexto($texto) {
+        $this->texto = $texto;
+        return $this;
     }
 
     function getOpciones() {
         return $this->opciones;
     }
 
-    function setTexto($texto) {
-        $this->texto = $texto;
-    }
-
     function setOpciones($opciones) {
         $this->opciones = $opciones;
+        return $this;
+    }
+
+    public function addOpcion(Opcion $opcion): self
+    {
+        if (!$this->opciones->contains($opcion)) {
+            $this->opciones[] = $opcion;
+            $opcion->setPregunta($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOpcion(Opcion $opcion): self
+    {
+        if ($this->opciones->contains($opcion)) {
+            $this->opciones->removeElement($opcion);
+        }
+
+        return $this;
     }
     
     function getExplicacion() {
@@ -84,6 +121,7 @@ class Pregunta
 
     function setExplicacion($explicacion) {
         $this->explicacion = $explicacion;
+        return $this;
     }
     
     function getEtiquetas() {
@@ -92,6 +130,7 @@ class Pregunta
 
     function setEtiquetas($etiquetas) {
         $this->etiquetas = $etiquetas;
+        return $this;
     }
-    
+
 }

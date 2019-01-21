@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+          <form method="POST" action="{{path('import_process')}}" enctype="multipart/form-data">
+            Selecciona un fichero: <input type="file" name="import">
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
+    </div>
+{% endblock %}
+
