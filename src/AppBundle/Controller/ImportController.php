@@ -26,8 +26,7 @@ class ImportController extends Controller
     public function processAction(Request $request)
     {
         ini_set('auto_detect_line_endings',TRUE);
-        //$num_respuestas = $request->get('num_respuestas');
-        $num_respuestas = 3;
+        $num_respuestas = $request->get('num_options');
         $file = $request->files->get('import');
         $handle = fopen($file->getPathname(),"r");
 
@@ -42,6 +41,7 @@ class ImportController extends Controller
             $pregunta = new Pregunta();
             $pregunta->setTexto(trim($line[0]));
             $pregunta->setTest($test);
+            $pregunta->setAnulada(trim($line[$num_respuestas+1]) == 'ANULADA');
             for($o = 1; $o <= $num_respuestas; $o++){
               $opcion = new Opcion();
               $opcion->setTexto(trim($line[$o]));

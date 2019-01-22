@@ -41,6 +41,11 @@ class Pregunta
      * @ORM\OneToMany(targetEntity="Opcion", mappedBy="pregunta", cascade={"remove"})
      */
     private $opciones;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $anulada;
     
     /**
      *
@@ -57,6 +62,7 @@ class Pregunta
     public function __construct()
     {
         $this->opciones = new ArrayCollection();
+        $this->anulada = false;
     }
 
     /**
@@ -130,6 +136,15 @@ class Pregunta
 
     function setEtiquetas($etiquetas) {
         $this->etiquetas = $etiquetas;
+        return $this;
+    }
+
+    function getAnulada() {
+        return $this->anulada;
+    }
+
+    function setAnulada($anulada) {
+        $this->anulada = $anulada;
         return $this;
     }
 

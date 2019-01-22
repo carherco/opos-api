@@ -4,7 +4,8 @@
     <div id="wrapper">
         <div id="container">
           <form method="POST" action="{{path('import_process')}}" enctype="multipart/form-data">
-            Selecciona un fichero: <input type="file" name="import">
+            Selecciona un fichero: <input type="file" name="import" required>
+            Número de opciones / pregunta: <input type="number" name="num_options" required>
             <button type="submit">Enviar</button>
           </form>
         </div>
