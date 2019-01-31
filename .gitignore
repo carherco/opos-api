@@ -1,12 +1,18 @@
-/app/config/parameters.yml
-/var/bootstrap.php.cache
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/sessions/.gitkeep
-/app/phpunit.xml
-/composer.phar
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
 /vendor/
-/web/bundles/
-/nbproject
-/.idea
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
