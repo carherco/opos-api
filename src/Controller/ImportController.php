@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\Test;
 use App\Entity\Pregunta;
 use App\Entity\Opcion;
+use App\Service\ImportTestService;
 
 class ImportController extends Controller
 {
@@ -18,6 +19,27 @@ class ImportController extends Controller
     public function indexAction(Request $request)
     {
         return $this->render('import/form.html.twig', []);
+    }
+
+    /**
+     * @Route("/import/txt2csv", name="import_txt2csv")
+     */
+    public function txt2csvAction(Request $request, ImportTestService $importService)
+    {
+        //Leer de la request
+        $txt = $request->file();
+        $csv = $importService->txt2csv($txt);
+
+        $response = new Response($csv);
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'test.csv'
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+        
+        return $response;
     }
 
     /**
@@ -36,7 +58,7 @@ class ImportController extends Controller
         $test = new Test();
         $test->setNombre('Importación '.date('Ymd-his'));
         $em->persist($test);
-        while ( ($line = fgetcsv($handle) ) !== FALSE ) {
+        while ( ($line = fgetcsv($handle,0,';') ) !== FALSE ) {
           if($line[0]) {
             $pregunta = new Pregunta();
             $pregunta->setTexto(trim($line[0]));

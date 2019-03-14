@@ -6,9 +6,61 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Test;
 
 class TestController extends Controller
 {
+    /**
+     * @Route("/test/generate/{numberOfQuestions}", name="test")
+     */
+    public function generateTestAction(Request $request, $numberOfQuestions)
+    {
+        $response = new JsonResponse();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $output = array();
+
+        $test = new Test();
+        
+        // numberOfQuestions
+        $preguntas = $this->getDoctrine()
+            ->getRepository('App:Pregunta')
+            ->findAll();
+        
+        $output['id'] = (new \Date())->format('Ymdhis');
+        $output['name'] = 'Test Aleatorio';
+        $output['questions'] = array();
+        
+        foreach($preguntas as $pregunta) {
+            $data = array();
+            $data['id'] = $pregunta->getId();
+            $data['text'] = $pregunta->getTexto();
+            $data['answers'] = array();
+            $data['labels'] = array();
+            $data['explanation'] = $pregunta->getExplicacion();
+
+            foreach($pregunta->getOpciones() as $opcion) {
+                $item = array();
+                $item['id'] = $opcion->getId();
+                $item['text'] = $opcion->getTexto();
+                $item['correct'] = $opcion->getCorrecta();
+                $data['answers'][] = $item;
+            }
+
+            foreach($pregunta->getEtiquetas() as $etiqueta) {
+                $item = array();
+                $item['nombre'] = $etiqueta->getNombre();
+                $data['labels'][] = $item;
+            }
+            $output['questions'][] = $data;
+        }  
+        
+        $response->setData($output);
+        return $response;
+    }
+
+
     /**
      * @Route("/test/{id}", name="test")
      */
