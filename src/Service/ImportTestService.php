@@ -7,10 +7,10 @@ class ImportTestService {
   public function txt2csv($plain_text) {
 
     $plain_text_cleaned = $this->fixText($plain_text);
-//dump($plain_text_cleaned);
+dump($plain_text_cleaned);
     $patrones = [
-      '/(\R\d+\..*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)\R([Dd][\.\)].*)/', //Número de pregunta+.+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta+d)+respuesta
-      '/(\R\d+\..*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)/', //Número de pregunta+.+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta
+      '/(\R\d+[\.\)].*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)\R([Dd][\.\)].*)/', //Número de pregunta+. o )+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta+d)+respuesta
+      '/(\R\d+[\.\)].*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)/', //Número de pregunta+. o )+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta
     ];
 
     $sustituciones = [
@@ -27,7 +27,7 @@ class ImportTestService {
       '/(\R\d+)\s/', // Números de pregunta sin estar seguidos de un punto
       '/\R\d+[\R|\s]/',  // Números de página
       '/\b(\R[a-dA-D][\)\.]\s)/', // Signos . olvidados seguidos de letra de pregunta
-      '/\b(\R\d+\.\s)/', // Signos . olvidados seguidos de número de pregunta
+      '/\b(\R\d+[\.\)]\s)/', // Signos . olvidados seguidos de número de pregunta
       '/\b\R/', // Saltos de línea no precedidos por signo de puntuación (:.?)
       '/,\R/', // Saltos de línea precedidos de una coma
       '/\)\R/', // Saltos de línea precedidos de un paréntesis de cierre
