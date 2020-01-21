@@ -10,7 +10,7 @@ use App\Entity\Etiqueta;
 
 /**
  * @ORM\Table(name="preguntas")
- * @ORM\Entity(repositoryClass="App\Entity\Repository\PreguntaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PreguntaRepository")
  */
 class Pregunta
 {

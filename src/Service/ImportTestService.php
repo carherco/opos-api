@@ -9,7 +9,7 @@ class ImportTestService {
     $plain_text_cleaned = $this->fixText($plain_text);
 dump($plain_text_cleaned);
     $patrones = [
-      '/(\R\d+[\.\)].*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)\R([Dd][\.\)].*)/', //Número de pregunta+. o )+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta+d)+respuesta
+      '/(\R\d+[\.\)].*)\R(\d+[Aa][\.\)].*)\R(\d+[Bb][\.\)].*)\R(\d+[Cc][\.\)].*)\R(\d+[Dd][\.\)].*)/', //Número de pregunta+. o )+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta+d)+respuesta
       '/(\R\d+[\.\)].*)\R([Aa][\.\)].*)\R([Bb][\.\)].*)\R([Cc][\.\)].*)/', //Número de pregunta+. o )+pregunta+salto de línea+a)+respuesta+salto de línea+b)+respuesta+salto de línea+c)+respuesta
     ];
 
@@ -24,6 +24,7 @@ dump($plain_text_cleaned);
 
   public function fixText($text) {
     $patrones = [
+      '/(\R)(\d+)\R([abcd]\))/', 
       '/(\R\d+)\s/', // Números de pregunta sin estar seguidos de un punto
       '/\R\d+[\R|\s]/',  // Números de página
       '/\b(\R[a-dA-D][\)\.]\s)/', // Signos . olvidados seguidos de letra de pregunta
@@ -36,6 +37,7 @@ dump($plain_text_cleaned);
     ];
     
     $sustituciones = [
+      '$1$3 ',
       '$1. ',
       '',
       '.$1', // Se les añade un . para que el último reemplazo no le afecte

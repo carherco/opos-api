@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Test;
+use App\Service\TestsGeneratorService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TestController extends Controller
+class TestController extends AbstractController
 {
     /**
-     * @Route("/test/generate/{numberOfQuestions}", name="test")
+     * @Route("/test/generate/{numberOfQuestions}", name="test_random_questions")
      */
     public function generateTestAction(Request $request, $numberOfQuestions)
     {
@@ -28,7 +29,7 @@ class TestController extends Controller
             ->getRepository('App:Pregunta')
             ->findAll();
         
-        $output['id'] = (new \Date())->format('Ymdhis');
+        $output['id'] = (new \DateTime())->format('Ymdhis');
         $output['name'] = 'Test Aleatorio';
         $output['questions'] = array();
         
@@ -111,6 +112,22 @@ class TestController extends Controller
             }
             $output['questions'][] = $data;
         }  
+        
+        $response->setData($output);
+        return $response;
+    }
+
+    /**
+     * @Route("/test/generate/thematic/{theme}", name="test_thematic")
+     */
+    public function testThematicAction(Request $request, $theme)
+    {
+        $response = new JsonResponse();
+        $preguntaRepository = $this->getDoctrine()
+            ->getRepository('App:Pregunta');
+        
+        $generator = new TestsGeneratorService($preguntaRepository);
+        $output = $generator->generateThematicTest($theme);
         
         $response->setData($output);
         return $response;
