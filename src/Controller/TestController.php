@@ -14,7 +14,7 @@ class TestController extends AbstractController
     /**
      * @Route("/test/generate/{numberOfQuestions}", name="test_random_questions")
      */
-    public function generateTestAction(Request $request, $numberOfQuestions)
+    public function generateTest(Request $request, $numberOfQuestions)
     {
         $response = new JsonResponse();
         
@@ -65,7 +65,7 @@ class TestController extends AbstractController
     /**
      * @Route("/test/{id}", name="test")
      */
-    public function testAction(Request $request, $id)
+    public function getTest(Request $request, $id)
     {
         $response = new JsonResponse();
         
@@ -118,16 +118,32 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/test/generate/thematic/{theme}", name="test_thematic")
+     * @Route("/test/generate/topic/{topic}", name="test_thematic")
      */
-    public function testThematicAction(Request $request, $theme)
+    public function generateTopicTest(Request $request, $topic)
     {
         $response = new JsonResponse();
         $preguntaRepository = $this->getDoctrine()
             ->getRepository('App:Pregunta');
         
         $generator = new TestsGeneratorService($preguntaRepository);
-        $output = $generator->generateThematicTest($theme);
+        $output = $generator->generateThematicTest($topic);
+        
+        $response->setData($output);
+        return $response;
+    }
+
+    /**
+     * @Route("/count-questions/{topic}", name="test_count_topic_questions")
+     */
+    public function countQuestionsTopic(Request $request, $topic)
+    {
+        $response = new JsonResponse();
+        $preguntaRepository = $this->getDoctrine()
+            ->getRepository('App:Pregunta');
+        
+        $generator = new TestsGeneratorService($preguntaRepository);
+        $output = $generator->generateThematicTest($topic);
         
         $response->setData($output);
         return $response;
