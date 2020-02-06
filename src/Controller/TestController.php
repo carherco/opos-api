@@ -96,6 +96,7 @@ class TestController extends AbstractController
             $data['answers'] = array();
             $data['labels'] = array();
             $data['explanation'] = $pregunta->getExplicacion();
+            $data['anulada'] = $pregunta->getAnulada();
 
             foreach($pregunta->getOpciones() as $opcion) {
                 $item = array();
